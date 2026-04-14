@@ -1,0 +1,127 @@
+.experiment-detail {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  color: var(--hub-navy);
+}
+
+.experiment-detail__top {
+  flex: 1 1 auto;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.experiment-detail__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--hub-section-tab, var(--hub-navy));
+  text-decoration: none;
+}
+
+.experiment-detail__back:hover {
+  text-decoration: underline;
+}
+
+.experiment-detail__vividbooks-loading {
+  margin: 1.5rem 0 0;
+  font-size: 0.88rem;
+  color: var(--text-muted, #6b6b6b);
+}
+
+.experiment-detail__vividbooks-loading--compact {
+  margin: 0 0 1rem;
+}
+
+.experiment-detail__source-link {
+  margin: 0 0 1rem;
+  font-size: 0.88rem;
+}
+
+.experiment-detail__source-link--page-end {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 1rem clamp(1.25rem, 4vw, 2.5rem) 1.75rem;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  text-align: center;
+  border-top: 1px solid rgba(30, 58, 95, 0.1);
+  font-size: 0.88rem;
+}
+
+.experiment-detail__source-link a {
+  color: var(--hub-section-tab, var(--hub-navy));
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.experiment-detail__source-link a:hover {
+  text-decoration: underline;
+}
+
+.experiment-detail__title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--hub-section-tab, var(--hub-navy));
+}
+
+.experiment-detail__meta {
+  margin: 0 0 1.5rem;
+  font-size: 0.95rem;
+  color: var(--text-muted, #6b6b6b);
+}
+
+.experiment-detail__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.experiment-detail__btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.65rem 1.25rem;
+  border-radius: 999px;
+  border: 2px solid var(--hub-section-tab, var(--hub-navy));
+  background: var(--hub-section-tab, var(--hub-navy));
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.experiment-detail__btn:hover {
+  opacity: 0.92;
+}
+
+.experiment-detail__btn--ghost {
+  background: #fff;
+  color: var(--hub-section-tab, var(--hub-navy));
+}
+
+.experiment-detail__notice {
+  margin: 0;
+  padding: 1rem 1.15rem;
+  border-radius: 14px;
+  background: rgba(30, 58, 95, 0.06);
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--text-primary, #4a4a4a);
+}
+
+.experiment-detail__notice--after-rich {
+  margin-top: 2rem;
+}

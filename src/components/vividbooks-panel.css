@@ -1,0 +1,285 @@
+.vividbooks-panel {
+  margin-top: 2rem;
+  padding: 1.25rem 1.35rem;
+  border-radius: 12px;
+  background: linear-gradient(165deg, rgba(110, 126, 200, 0.08), rgba(246, 248, 252, 0.95));
+  border: 1px solid rgba(110, 126, 200, 0.22);
+}
+
+.vividbooks-panel--compact {
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.1rem;
+}
+
+.vividbooks-panel--compact .vividbooks-panel__title {
+  font-size: 0.98rem;
+}
+
+.vividbooks-panel__intro--compact {
+  margin-bottom: 0.65rem;
+  font-size: 0.8rem;
+}
+
+.vividbooks-panel__title {
+  margin: 0 0 0.65rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--hub-section-tab, var(--hub-navy));
+}
+
+.vividbooks-panel__title--accordion {
+  margin: 0;
+}
+
+.vividbooks-panel--open .vividbooks-panel__title--accordion {
+  margin-bottom: 0.5rem;
+}
+
+.vividbooks-panel__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.2rem 0;
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-weight: 700;
+  font-size: inherit;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  border-radius: 8px;
+}
+
+.vividbooks-panel__toggle:hover {
+  opacity: 0.9;
+}
+
+.vividbooks-panel__toggle:focus-visible {
+  outline: 2px solid rgba(110, 126, 200, 0.55);
+  outline-offset: 2px;
+}
+
+.vividbooks-panel__toggle-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.vividbooks-panel__chevron {
+  flex-shrink: 0;
+  color: var(--hub-section-tab, #5a67a8);
+  transition: transform 0.2s ease;
+}
+
+.vividbooks-panel__chevron--open {
+  transform: rotate(180deg);
+}
+
+.vividbooks-panel__body {
+  padding-top: 0.15rem;
+}
+
+.vividbooks-panel__intro,
+.vividbooks-panel__note {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text-muted, #5a6b7d);
+}
+
+.vividbooks-panel__note:last-child {
+  margin-bottom: 0;
+}
+
+.vividbooks-panel__code {
+  font-size: 0.8em;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  background: rgba(30, 58, 95, 0.07);
+}
+
+.vividbooks-panel__warn {
+  margin: 0 0 1rem;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  border-radius: 8px;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: #78350f;
+}
+
+.vividbooks-panel__lessons {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.vividbooks-panel__lesson-wrap {
+  margin: 0;
+  padding: 0;
+}
+
+.vividbooks-panel__lesson-pack {
+  min-width: 0;
+}
+
+.vividbooks-panel__blob-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem 1rem;
+  align-items: start;
+}
+
+.vividbooks-panel__blob-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+}
+
+.vividbooks-panel__blob-col-title {
+  margin: 0;
+  padding-bottom: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--hub-navy, #1e293b);
+  border-bottom: 1px solid rgba(30, 58, 95, 0.18);
+}
+
+.vividbooks-panel__blob-col-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Bobánka: světle šedá pilulka, ikona vlevo */
+.vividbooks-panel__blob {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 0.75rem 0.65rem 0.65rem;
+  border-radius: 14px;
+  background: #f0f0f0;
+  border: none;
+  box-shadow: none;
+  text-decoration: none;
+  color: inherit;
+  min-height: 3.25rem;
+  transition:
+    background 0.15s ease,
+    transform 0.12s ease;
+}
+
+a.vividbooks-panel__blob:hover {
+  background: #e6e6e6;
+  transform: translateY(-1px);
+}
+
+.vividbooks-panel__blob--static {
+  cursor: default;
+}
+
+.vividbooks-panel__blob--static:hover {
+  transform: none;
+  background: #f0f0f0;
+}
+
+.vividbooks-panel__blob-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #4a5568;
+  color: #fff;
+}
+
+.vividbooks-panel__blob-icon--symbol .vividbooks-panel__blob-glyph {
+  width: 22px;
+  height: 22px;
+}
+
+.vividbooks-panel__blob-icon--thumb {
+  background: #fff;
+  border: 1px solid rgba(30, 58, 95, 0.1);
+  overflow: hidden;
+}
+
+.vividbooks-panel__blob-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.vividbooks-panel__blob-thumb-fallback {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #e8ecf8, #dfe7f5);
+}
+
+.vividbooks-panel__blob-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+  text-align: left;
+}
+
+.vividbooks-panel__blob-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--hub-navy, #1e293b);
+  word-break: break-word;
+}
+
+.vividbooks-panel__blob-sub {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-muted, #64748b);
+  line-height: 1.35;
+}
+
+.vividbooks-panel__sep {
+  font-weight: 400;
+  opacity: 0.75;
+}
+
+.vividbooks-panel--compact .vividbooks-panel__blob {
+  padding: 0.55rem 0.65rem 0.55rem 0.55rem;
+  min-height: 3rem;
+}
+
+.vividbooks-panel--compact .vividbooks-panel__blob-icon {
+  width: 44px;
+  height: 44px;
+}
+
+.vividbooks-panel--compact .vividbooks-panel__blob-label {
+  font-size: 0.85rem;
+}
+
+.vividbooks-panel--compact .vividbooks-panel__blob-col-title {
+  font-size: 0.72rem;
+}
+
+@media (max-width: 520px) {
+  .vividbooks-panel__blob-grid {
+    grid-template-columns: 1fr;
+  }
+}
