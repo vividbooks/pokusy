@@ -4,9 +4,12 @@ import { defaultCategorySlug } from "./data/catalog";
 import CatalogHome from "./pages/CatalogHome";
 import ExperimentDetail from "./pages/ExperimentDetail";
 
+const routerBasename =
+  import.meta.env.BASE_URL === "/" ? undefined : import.meta.env.BASE_URL.replace(/\/$/, "");
+
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={routerBasename}>
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Navigate to={`/${defaultCategorySlug}`} replace />} />

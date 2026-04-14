@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { publicUrl } from "../utils/publicUrl";
 
 type ExperimentPageTitleProps = {
   children: ReactNode;
@@ -10,7 +11,7 @@ export function ExperimentPageTitle({ children }: ExperimentPageTitleProps) {
     <div className="exp-ux__title-block">
       <img
         className="exp-ux__brand-logo"
-        src="/vividbooks_logo.svg"
+        src={publicUrl("/vividbooks_logo.svg")}
         alt="Vividbooks"
         width={103}
         height={52}

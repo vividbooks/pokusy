@@ -1,11 +1,12 @@
 import type { ExperimentCategoryDef, ExperimentItem } from "../types";
+import { publicUrl } from "../utils/publicUrl";
 import { ebedoxExperiments } from "./ebedox-experiments.generated";
 import { experimentThumbnailOverrides } from "./experimentThumbnailOverrides";
 
 function applyThumbnailOverrides(items: ExperimentItem[]): ExperimentItem[] {
   return items.map((e) => {
     const url = experimentThumbnailOverrides[e.slug];
-    return url ? { ...e, thumbnailUrl: url } : e;
+    return url ? { ...e, thumbnailUrl: publicUrl(url) } : e;
   });
 }
 
