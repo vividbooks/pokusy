@@ -10,6 +10,7 @@ import { getExperiment } from "../../data/catalog";
 import "../experiment-rich-ux.css";
 
 const U = "https://ebedox.cz/wp-content/uploads";
+
 /** Obecné piktogramy — vizuální návaznost na ostatní pokusy, detail v PDF. */
 const DEFAULT_GHS: string[] = [
   `${U}/2021/06/Drazdive-150x150.png`,
@@ -17,10 +18,7 @@ const DEFAULT_GHS: string[] = [
   `${U}/2021/06/Horlave-150x150.png`,
 ];
 
-/**
- * Automaticky generovaná stránka z dat WordPress/eBedox (PDF, video, postup).
- * Ručně psané komponenty v ExperimentDetail mají přednost.
- */
+/** Stránka pokusu z metadat a metodického obsahu (PDF, video, postup). */
 export default function EbedoxExperimentRichPage() {
   const { categorySlug, experimentSlug } = useParams<{ categorySlug: string; experimentSlug: string }>();
 
@@ -51,7 +49,11 @@ export default function EbedoxExperimentRichPage() {
 
   const steps = data?.procedureSteps?.length
     ? data.procedureSteps
-    : [{ title: "Postup", body: "Podrobný pracovní postup je v metodickém listu (PDF) na eBedox." }];
+    : [{ title: "Postup", body: "Podrobný pracovní postup je v metodickém listu (PDF)." }];
+
+  const summary = data && !data.error ? data.summary : undefined;
+  const targetGroup = summary?.targetGroup?.trim() || null;
+  const thematicUnits = summary?.thematicUnits?.trim() || null;
 
   return (
     <div className="exp-ux exp-ux--cols">
@@ -82,9 +84,29 @@ export default function EbedoxExperimentRichPage() {
 
           <div className="exp-ux__facts">
             <h2>Shrnutí</h2>
-            <p className="exp-ux-prose">
-              Text a postup níže pocházejí z veřejného obsahu eBedox (automaticky staženého). Kompletní metodiku,
-              tabulky chemikálií a bezpečnostní pokyny vždy ověřte v aktuálním PDF metodického listu.
+            {targetGroup || thematicUnits ? (
+              <dl className="exp-ux-dl">
+                {targetGroup ? (
+                  <>
+                    <dt>Vhodná cílová skupina</dt>
+                    <dd>{targetGroup}</dd>
+                  </>
+                ) : null}
+                {thematicUnits ? (
+                  <>
+                    <dt>Tematické celky</dt>
+                    <dd>{thematicUnits}</dd>
+                  </>
+                ) : null}
+              </dl>
+            ) : (
+              <p className="exp-ux-prose" style={{ marginTop: 0 }}>
+                Cílovou skupinu a tematické celky najdete v metodickém listu (PDF) nebo v plném článku na eBedox.cz.
+              </p>
+            )}
+            <p className="exp-ux-prose" style={{ marginTop: "1rem" }}>
+              Kompletní metodiku, soupis pomůcek a chemikálií, didaktiku a bezpečnostní pokyny mějte ověřené v aktuálním
+              metodickém listu (PDF) a v příslušných sekcích stránky.
             </p>
           </div>
 
@@ -104,7 +126,7 @@ export default function EbedoxExperimentRichPage() {
           <section id="video" className="exp-ux__section">
             <h2 className="exp-ux__section-title">Instruktážní materiály</h2>
             <div className="exp-ux-video-card">
-              <p className="exp-ux-video-card__hint">Doporučujeme nejdřív přehrát instruktážní video z eBedox.</p>
+              <p className="exp-ux-video-card__hint">Doporučujeme nejdřív přehrát instruktážní video.</p>
               <YouTubeEmbed videoId={data.youtubeVideoId} title={`Instruktážní video — ${experimentTitle}`} />
             </div>
           </section>
@@ -112,8 +134,7 @@ export default function EbedoxExperimentRichPage() {
           <section id="video" className="exp-ux__section">
             <h2 className="exp-ux__section-title">Instruktážní materiály</h2>
             <p className="exp-ux-prose">
-              U tohoto pokusu nebylo ve zdrojové stránce nalezeno vložené video — použijte metodický list (PDF) a odkaz na
-              eBedox.
+              U tohoto pokusu není na stránce vložené video — kontext a postup najdete v metodickém listu (PDF).
             </p>
           </section>
         )}
@@ -121,8 +142,8 @@ export default function EbedoxExperimentRichPage() {
         <section id="vybaveni" className="exp-ux__section">
           <h2 className="exp-ux__section-title">Praktické provedení pokusu</h2>
           <p className="exp-ux-prose">
-            Seznam pomůcek, ochranných prostředků a přesný postup je v metodickém listu (PDF). Níže je zkrácený přepis
-            pracovního postupu z webu eBedox.
+            Seznam pomůcek, ochranných prostředků a přesný postup je v metodickém listu (PDF). Níže je stručný pracovní
+            postup.
           </p>
 
           <div className="exp-ux-procedure">
@@ -143,7 +164,7 @@ export default function EbedoxExperimentRichPage() {
           <Accordion title="Vysvětlení a látky" defaultOpen>
             <p className="exp-ux-prose">
               Slovní vysvětlení reakcí, přehled chemikálií s piktogramy GHS a bezpečnostními listy najdete v metodickém
-              listu (PDF) a na původní stránce projektu eBedox.
+              listu (PDF).
             </p>
             <p className="exp-ux-prose" style={{ marginTop: "1rem" }}>
               <a href={sourceUrl} target="_blank" rel="noopener noreferrer">

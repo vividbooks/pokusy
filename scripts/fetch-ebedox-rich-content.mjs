@@ -1,6 +1,6 @@
 /**
  * Stáhne pro každý pokus z katalogu WordPress REST API (content.rendered),
- * vytáhne PDF, YouTube ID a z textu odhadne rychlé údaje (čas, riziko, druh, nebezpečí).
+ * vytáhne PDF, YouTube ID, shrnutí (cílová skupina, tematické celky) a rychlé údaje (čas, riziko, druh, nebezpečí).
  * Volitelně uloží očištěný text pro sekce (pracovní postup / chemikálie / didaktika / bezpečnost).
  *
  * Spuštění: node scripts/fetch-ebedox-rich-content.mjs
@@ -105,6 +105,65 @@ function extractQuickFromText(t) {
   return { time, risk, kind, hazards };
 }
 
+/** „Vhodná cílová skupina“ / „Tematické celky“ — stejný vzor jako ruční stránky (Shrnutí), ne infografika. */
+function normalizeDashList(s) {
+  if (!s) return null;
+  const parts = s.split(/\s*-\s+/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+  if (parts.length === 0) return null;
+  if (parts.length === 1) return parts[0];
+  return parts.join(", ");
+}
+
+function capLen(s, max) {
+  if (!s) return null;
+  return s.length > max ? s.slice(0, max - 1) + "…" : s;
+}
+
+function extractSummaryFromText(t) {
+  const lower = t.toLowerCase();
+  const mkV = "vhodná cílová skupina";
+  const mkT = "tematické celky";
+  const iV = lower.indexOf(mkV);
+  const iT = iV >= 0 ? lower.indexOf(mkT, iV + mkV.length) : lower.indexOf(mkT);
+
+  let targetGroup = null;
+  if (iV >= 0 && iT > iV) {
+    const raw = t.slice(iV + mkV.length, iT)
+      .replace(/^[\s\-–—:]+/u, "")
+      .trim();
+    targetGroup = normalizeDashList(raw);
+  }
+
+  let thematicUnits = null;
+  if (iT >= 0) {
+    const afterT = t.slice(iT + mkT.length);
+    const la = afterT.toLowerCase();
+    const endMarkers = [
+      "druh pokusu",
+      "možná nebezpečí",
+      "míra rizika ohrožení zdraví",
+      "časová náročnost",
+    ];
+    let end = afterT.length;
+    for (const mk of endMarkers) {
+      const j = la.indexOf(mk, 2);
+      if (j !== -1 && j < end) end = j;
+    }
+    const raw = afterT
+      .slice(0, end)
+      .replace(/^[\s\-–—:]+/u, "")
+      .trim();
+    thematicUnits = normalizeDashList(raw);
+  }
+
+  return {
+    targetGroup: capLen(targetGroup, 320),
+    thematicUnits: capLen(thematicUnits, 320),
+  };
+}
+
 /** Rozdělí text na bloky podle nadpisů v textu (zůstaly z h3/h4). */
 function extractProcedureParagraphs(html) {
   const text = stripTags(html);
@@ -173,6 +232,7 @@ async function main() {
       const youtubeVideoId = extractYoutubeId(html);
       const plain = stripTags(html);
       const q = extractQuickFromText(plain);
+      const summary = extractSummaryFromText(plain);
       const procedureSteps = extractProcedureParagraphs(html);
 
       results.push({
@@ -180,6 +240,7 @@ async function main() {
         pdfHref,
         youtubeVideoId,
         quick: q,
+        summary,
         procedureSteps,
       });
       ok++;
@@ -195,13 +256,13 @@ async function main() {
       return `  "${r.slug}": { error: ${JSON.stringify(r.error)} },`;
     }
     const stepsJson = JSON.stringify(r.procedureSteps || []);
-    return `  "${r.slug}": {\n    pdfHref: ${r.pdfHref ? `"${escapeStr(r.pdfHref)}"` : "null"},\n    youtubeVideoId: ${r.youtubeVideoId ? `"${r.youtubeVideoId}"` : "null"},\n    quick: ${JSON.stringify(r.quick)},\n    procedureSteps: ${stepsJson},\n  },`;
+    return `  "${r.slug}": {\n    pdfHref: ${r.pdfHref ? `"${escapeStr(r.pdfHref)}"` : "null"},\n    youtubeVideoId: ${r.youtubeVideoId ? `"${r.youtubeVideoId}"` : "null"},\n    quick: ${JSON.stringify(r.quick)},\n    summary: ${JSON.stringify(r.summary)},\n    procedureSteps: ${stepsJson},\n  },`;
   });
 
   const ts = `/* eslint-disable */
 /**
  * Automaticky generováno: node scripts/fetch-ebedox-rich-content.mjs
- * Zdroj: WordPress REST API + HTML (PDF, YouTube, odhad rychlých údajů, kroky postupu).
+ * Zdroj: WordPress REST API + HTML (PDF, YouTube, shrnutí, rychlé údaje, kroky postupu).
  */
 export type EbedoxProcedureStep = { title: string; body: string };
 
@@ -209,6 +270,7 @@ export type EbedoxRichEntry = {
   pdfHref: string | null;
   youtubeVideoId: string | null;
   quick: { time: string; risk: string; kind: string; hazards: string };
+  summary: { targetGroup: string | null; thematicUnits: string | null };
   procedureSteps: EbedoxProcedureStep[];
   error?: string;
 };
