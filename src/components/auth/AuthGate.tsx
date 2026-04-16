@@ -8,7 +8,7 @@ const AUTH_CHECK_URL =
   "https://api.vividbooks.com/v1/login";
 const AUTH_REDIRECT_URL =
   import.meta.env.VITE_AUTH_REDIRECT_URL?.trim() || "https://app.vividbooks.com";
-const ENABLE_AUTH_GATE = import.meta.env.VITE_ENABLE_AUTH_GATE !== "false";
+const ENABLE_AUTH_GATE = import.meta.env.VITE_ENABLE_AUTH_GATE === "true";
 
 function readCookie(name: string): string | null {
   const entries = document.cookie.split(";").map((part) => part.trim());
