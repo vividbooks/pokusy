@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
+    "build:hostinger": "npm run build",
     "build:gh-pages": "POKUSY_BASE=/pokusy/ npm run build",
     "preview": "vite preview",
     "data:ebedox": "node scripts/fetch-ebedox-experiments.mjs",
