@@ -8,7 +8,7 @@ const AUTH_CHECK_URL =
   "https://api.vividbooks.com/v1/login";
 const AUTH_REDIRECT_URL =
   import.meta.env.VITE_AUTH_REDIRECT_URL?.trim() || "https://app.vividbooks.com";
-const ENABLE_AUTH_GATE = import.meta.env.VITE_ENABLE_AUTH_GATE === "true";
+const ENABLE_AUTH_GATE = false;
 
 function shouldBypassAuthGate(hostname: string): boolean {
   if (hostname === "localhost" || hostname.endsWith(".localhost")) {
@@ -21,6 +21,8 @@ function shouldBypassAuthGate(hostname: string): boolean {
 
   return (
     hostname === "vividboard.cz" ||
+    hostname === "app.vividboard.cz" ||
+    hostname === "dev.vividboard.cz" ||
     hostname.endsWith(".vividboard.cz") ||
     hostname === "tagline.cz" ||
     hostname.endsWith(".tagline.cz")
